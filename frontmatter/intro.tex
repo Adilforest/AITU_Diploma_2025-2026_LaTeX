@@ -1,0 +1,32 @@
+\chapter{Introduction}
+\label{chap:intro}
+
+In the digital economy, the volume of daily financial transactions is steadily increasing, which leads to a growing demand for effective tools for accounting and analyzing personal expenses. Despite the widespread use of banking applications and payment systems, most existing solutions provide only aggregated transaction information that does not reflect the detailed structure of purchases at the level of individual product items. As a result, users are unable to perform deep expense analysis, identify consumption patterns, and track price changes for specific goods.
+
+A cash receipt represents the most accurate source of information about actual purchases, as it contains detailed data on product names, quantities, prices, total amounts, as well as information about the store and transaction time. However, in practice, receipt data are rarely utilized due to several limitations. These include data fragmentation, variability of formats, and the lack of convenient tools for automated processing. Receipts may be obtained in different forms, such as QR-code-based online representations, images requiring OCR processing, or manually entered data, which leads to inconsistencies in quality and completeness.
+
+An additional challenge is the semantic heterogeneity of receipt data. Product names may differ across stores, include abbreviations, internal codes, or input errors. This significantly complicates comparison and categorization processes. As a result, even with large volumes of data, users cannot obtain reliable analytics, and price comparison across stores becomes impractical without additional normalization.
+
+Therefore, there is a need to develop a specialized system capable of providing an end-to-end receipt processing pipeline, including data acquisition from multiple sources, normalization, storage, and analytical processing. Such a system must handle noisy and inconsistent data, ensure scalability and reliability, and support extensibility through modern data processing and analytics techniques.
+
+The purpose of this thesis is to develop a service for storing receipts, analyzing purchases, and monitoring prices based on a microservice architecture with event-driven interaction between components. The system should support receipt acquisition from various sources, transformation into a structured format, and generation of analytical representations for end users.
+
+To achieve this goal, the following tasks are defined:
+
+\begin{itemize}
+    \item analysis of existing solutions and approaches for expense tracking and receipt processing;
+    \item investigation of receipt data characteristics and data quality issues;
+    \item development of a system architecture based on microservice and event-driven principles;
+    \item design of a data processing pipeline including extraction, cleaning, storage, and analysis;
+    \item implementation of key system components and their interaction mechanisms;
+    \item justification of selected technologies and development tools;
+    \item evaluation of the current system implementation and identification of further development directions.
+\end{itemize}
+
+The object of the research is the processes of accounting and analyzing user expenses based on receipt data.
+
+The subject of the research is methods and architectural approaches to receipt processing, including data extraction, normalization, storage, and analytical processing within a distributed system.
+
+The practical significance of the work lies in the development of a software solution that enables centralized receipt storage, detailed expense analysis, and price monitoring at the level of individual products. The proposed architecture can be used as a foundation for further development of financial services and integration with mobile and web applications.
+
+The structure of the thesis includes an introduction, a literature review, an analysis of existing systems, a description of methods and architecture, implementation of a prototype, comparison of technologies, user interface prototyping, and a conclusion outlining results and directions for future research.

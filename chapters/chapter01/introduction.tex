@@ -1,0 +1,134 @@
+%
+% File: introduction.tex
+% Author: Tengxiang Li
+%
+\chapter{Literature Review and Analysis of
+Existing Systems}
+\label{chap:01}
+\setlength{\parskip}{1em}
+%
+\section{Literature Review}
+
+\subsection{Problem Statement and Research Context}
+
+The rapid digitalization of retail and financial transactions has led to an increasing availability of purchase-related data. However, despite the widespread use of banking applications and digital payment systems, users still lack effective tools for analyzing their expenses at the level of individual products. Most existing solutions operate at the transaction level and do not provide access to the structure of purchases within a receipt.
+
+A receipt represents the most detailed and reliable source of information about purchases, including product names, quantities, prices, and store metadata. However, receipt data are inherently heterogeneous: they can be obtained through QR codes (online receipts), images requiring OCR processing, or manual user input. These sources differ significantly in terms of data quality, completeness, and structure.
+
+Therefore, the problem addressed in this work is not limited to receipt storage. It involves transforming heterogeneous, noisy, and unstructured receipt data into a unified, structured representation that supports product-level analytics and price monitoring.
+
+\begin{figure}[h]
+\centering
+\fbox{\parbox{0.8\textwidth}{
+Input (QR / OCR / Manual) $\rightarrow$ Extraction $\rightarrow$ Cleaning \& Normalization $\rightarrow$ Storage $\rightarrow$ Analytics
+}}
+\caption{General pipeline of receipt data processing}
+\end{figure}
+
+\subsection{Existing Solutions and Their Limitations}
+
+Existing approaches to expense tracking and purchase analysis can be divided into several categories: spreadsheet tools, banking applications, enterprise ERP/POS systems, and receipt-scanning solutions.
+
+\subsubsection{Spreadsheet Tools}
+
+Applications such as Microsoft Excel and Google Sheets are widely used for personal expense tracking. They provide flexibility in structuring data and enable custom analytics through formulas and pivot tables. However, their main limitation lies in the lack of automation. Data entry is typically manual, which makes the approach time-consuming and error-prone. Moreover, spreadsheets do not support automatic extraction or normalization of product-level data from receipts.
+
+\subsubsection{Banking Applications}
+
+Banking applications provide automated expense tracking and categorization based on transaction data. However, they operate at the level of financial transactions and do not include detailed information about purchased items. A typical transaction contains only the amount, date, and merchant information, which makes product-level analysis and price comparison impossible.
+
+\subsubsection{ERP and POS Systems}
+
+Enterprise systems such as 1C, Poster POS, and iiko operate with detailed product-level data, including inventory, prices, and sales. These systems are designed for business use and provide comprehensive analytics within a single retail environment. However, they are not applicable for aggregating personal purchase data across multiple independent stores, as they require access to internal business systems.
+
+\subsubsection{Receipt Scanning Solutions}
+
+Receipt scanning applications focus on extracting key information from receipts for expense reporting. While they may support OCR and structured data extraction, they typically do not address semantic normalization of product names or cross-store price monitoring.
+
+\subsubsection{Comparative Analysis}
+
+\begin{table}[h]
+\centering
+\caption{Comparison of Existing Solution Classes}
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\textbf{Solution Type} & \textbf{Item-Level Data} & \textbf{Analytics} & \textbf{Price Monitoring} & \textbf{Limitations} \\
+\hline
+Excel / Sheets & No & Yes & Limited & Manual input, no automation \\
+\hline
+Banking Apps & No & Yes & No & No product-level data \\
+\hline
+ERP / POS & Yes & Yes & Limited & Not user-oriented \\
+\hline
+Receipt Apps & Partial & Yes & Limited & Weak normalization \\
+\hline
+\end{tabular}
+\end{table}
+
+Thus, existing solutions either lack detailed product-level data or are not designed for personal multi-source aggregation, which motivates the development of a specialized system.
+
+\subsection{OCR and Information Extraction from Receipts}
+
+Receipt OCR is a complex task that differs significantly from general text recognition. The SROIE (Scanned Receipt OCR and Information Extraction) challenge defines three main subtasks: text detection, text recognition, and key information extraction. It also introduces evaluation metrics such as precision, recall, F1-score, and mean average precision (mAP).
+
+Receipt images present unique challenges, including low image quality, distortions, small fonts, and complex layouts. Even minor recognition errors can significantly affect downstream processing, particularly in numerical fields such as prices.
+
+Open-source tools like Tesseract provide accessible OCR capabilities but are sensitive to image quality and require preprocessing. Commercial solutions such as Google Vision and AWS Textract offer higher accuracy but introduce additional cost and dependency on cloud infrastructure.
+
+Recent research in document understanding, including models such as LayoutLM and Donut, suggests that combining textual and spatial information or using OCR-free approaches can improve robustness and reduce error propagation.
+
+\subsection{Normalization of Product Names}
+
+Normalization of product names is a critical step in enabling analytics and price comparison. Even with accurate OCR, product names may vary significantly due to abbreviations, formatting differences, and language variations.
+
+Basic normalization includes rule-based processing, such as standardizing units, numbers, and punctuation. More advanced approaches use approximate string matching techniques, such as Levenshtein distance, to correct OCR errors and unify similar strings.
+
+However, semantic differences require more advanced methods. Sentence embeddings, such as SBERT and LaBSE, allow mapping product names into a vector space, where similarity can be measured using cosine distance. This enables grouping semantically similar products even when their textual representations differ.
+
+Clustering algorithms are then used to group similar items. Among them, DBSCAN is particularly suitable because it does not require specifying the number of clusters in advance and can identify noise. HDBSCAN further improves clustering stability in datasets with varying density, while KMeans is less suitable due to its requirement for a predefined number of clusters.
+
+\begin{figure}[h]
+\centering
+\fbox{\parbox{0.8\textwidth}{
+Raw Text $\rightarrow$ Cleaning $\rightarrow$ Fuzzy Matching $\rightarrow$ Embeddings $\rightarrow$ Clustering
+}}
+\caption{Multi-stage product normalization pipeline}
+\end{figure}
+
+\subsection{Architectural Approaches}
+
+The complexity of receipt processing requires a scalable and modular system architecture. Event-driven architecture is well-suited for this task, as it enables decoupling of system components and supports independent scaling.
+
+In such a system, receipt processing can be divided into stages: data ingestion, post-processing, storage, and analytics. These stages communicate via asynchronous events, allowing the system to handle variable workloads and ensure fault tolerance.
+
+Message brokers such as NATS JetStream, Apache Kafka, and RabbitMQ provide different trade-offs in terms of performance, reliability, and operational complexity. NATS JetStream offers lightweight deployment with persistent messaging and at-least-once delivery, making it suitable for microservice-based architectures.
+
+\subsection{Data Storage and Analytics}
+
+The literature suggests separating transactional and analytical workloads. PostgreSQL is commonly used as an OLTP database to ensure data consistency and integrity. For analytical queries, column-oriented databases such as ClickHouse provide significantly better performance for aggregations and time-series analysis.
+
+This dual-storage approach allows efficient processing of both operational and analytical workloads while maintaining data consistency through mechanisms such as replication or event-based synchronization.
+
+\subsection{Research Gaps and Justification}
+
+The literature analysis reveals several important gaps:
+
+\begin{itemize}
+\item Lack of comprehensive solutions combining multi-source receipt ingestion, normalization, and analytics;
+\item Limited research on multilingual receipt processing and cross-domain generalization;
+\item Absence of universal product identifiers in receipt data;
+\item Strong dependence of system performance on input data quality;
+\item Need for robust post-processing pipelines to handle OCR errors.
+\end{itemize}
+
+These gaps justify the proposed approach, which integrates multiple data sources, combines rule-based and machine learning methods for normalization, and employs an event-driven architecture for scalability and reliability.
+
+\subsection{Conclusion}
+
+The review demonstrates that the problem of receipt processing requires a combination of techniques from document analysis, natural language processing, and distributed systems design. Existing solutions address only isolated aspects of the problem, while the proposed system aims to provide an integrated approach.
+
+The combination of multi-source data ingestion, semantic normalization, clustering-based categorization, and scalable architecture forms a solid foundation for developing a receipt-based analytics and price monitoring service.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+

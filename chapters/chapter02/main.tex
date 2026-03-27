@@ -1,0 +1,118 @@
+%
+% File: chap02.tex
+% Author: Tengxiang Li
+%
+\chapter{Analysis of Existing Systems}
+\label{chap:02}
+\setlength{\parskip}{1em}
+%
+
+\section{Evaluation Criteria}
+
+In order to objectively analyze existing systems related to expense tracking and receipt processing, a set of evaluation criteria is defined. These criteria reflect the requirements of the proposed system and highlight the limitations of current solutions.
+
+The following criteria are used:
+
+\begin{itemize}
+    \item \textbf{Support for item-level receipt data} — ability to work with individual product positions rather than aggregated transactions;
+    \item \textbf{Multi-source data acquisition} — support for QR receipts, OCR input, and manual entry;
+    \item \textbf{Automatic data extraction} — ability to extract structured data from receipts without manual intervention;
+    \item \textbf{Normalization and data consistency} — support for unifying product names and correcting inconsistencies;
+    \item \textbf{Analytical capabilities} — ability to analyze expenses by categories, stores, and time;
+    \item \textbf{Price monitoring} — ability to compare prices of similar products across different stores;
+    \item \textbf{Scalability and automation} — ability to handle large volumes of data without manual effort.
+\end{itemize}
+
+These criteria are used consistently across all analyzed systems.
+
+\section{Spreadsheet-Based Solutions}
+
+Spreadsheet tools such as Microsoft Excel and Google Sheets are widely used for personal expense tracking due to their flexibility and accessibility. Users can manually input purchase data, define categories, and perform analysis using built-in functions and pivot tables.
+
+However, these tools have several significant limitations. First, they rely entirely on manual data entry, which introduces errors and makes the process time-consuming. Second, they lack support for automatic extraction of data from receipts, including QR-based or OCR-based inputs. Third, spreadsheets do not provide mechanisms for semantic normalization of product names, making it difficult to aggregate data across different stores.
+
+Additionally, spreadsheets are not designed to function as full-scale databases. When used as a backend system, they are constrained by API limits and performance issues when handling large datasets.
+
+Thus, while spreadsheet tools provide basic analytical capabilities, they are not suitable for automated receipt processing or price monitoring tasks.
+
+\section{Banking Applications}
+
+Banking applications provide automated tracking of financial transactions and often include features such as expense categorization, budgeting, and visualization.
+
+Despite their convenience, banking systems operate at the transaction level and do not include detailed information about purchased items. A typical banking transaction contains only the total amount, date, and merchant information, without a breakdown of individual products.
+
+This limitation prevents users from analyzing purchases at a granular level or comparing prices of specific items across stores. Therefore, banking applications cannot support product-level analytics or price monitoring.
+
+Furthermore, integration with external systems is typically limited to predefined APIs focused on account and transaction data, rather than detailed purchase information.
+
+\section{ERP and POS Systems}
+
+Enterprise systems such as 1C, Poster POS, and iiko are designed to manage retail and hospitality operations. These systems maintain detailed information about products, prices, inventory, and sales.
+
+A key advantage of ERP/POS systems is their ability to operate at the item level, providing complete data on purchased goods. They also offer advanced analytical tools within the scope of a single business environment.
+
+However, these systems are fundamentally designed for business use and require access to internal infrastructure. They are not intended for aggregating personal purchase data across multiple independent stores.
+
+Moreover, their deployment and configuration are complex and require significant resources, making them unsuitable for individual users.
+
+Thus, while ERP/POS systems provide valuable insights into retail operations, they do not solve the problem of personal receipt aggregation and analysis.
+
+\section{Receipt Scanning Applications}
+
+Receipt scanning applications aim to simplify expense tracking by allowing users to scan receipts and automatically extract key information.
+
+These systems typically use OCR technologies to identify important fields such as total amount, date, and merchant name. Some solutions also provide basic categorization and reporting features.
+
+However, most receipt scanning applications focus on expense reporting rather than deep analysis. They often do not perform semantic normalization of product names, which limits their ability to group similar items across different receipts.
+
+In addition, price monitoring functionality is either absent or limited, as these systems do not maintain a unified representation of products.
+
+Therefore, while receipt scanning applications improve data acquisition, they do not provide a complete solution for product-level analytics and price comparison.
+
+\section{Comparative Analysis}
+
+\begin{table}[h]
+\centering
+\caption{Comparison of Existing Systems Based on Evaluation Criteria}
+\begin{tabular}{|l|c|c|c|c|c|c|}
+\hline
+\textbf{System Type} & \textbf{Items} & \textbf{Multi-source} & \textbf{Extraction} & \textbf{Normalization} & \textbf{Analytics} & \textbf{Price Monitoring} \\
+\hline
+Excel / Sheets & No & No & No & No & Yes & Limited \\
+\hline
+Banking Apps & No & No & Yes & No & Yes & No \\
+\hline
+ERP / POS & Yes & No & Yes & Partial & Yes & Limited \\
+\hline
+Receipt Apps & Partial & Partial & Yes & Limited & Yes & Limited \\
+\hline
+\end{tabular}
+\end{table}
+
+The comparison shows that no existing solution satisfies all evaluation criteria. Each system type addresses only a subset of the required functionality.
+
+\section{Limitations of Existing Systems}
+
+Based on the analysis, several fundamental limitations can be identified:
+
+\begin{itemize}
+    \item Lack of support for multi-source data acquisition combining QR, OCR, and manual input;
+    \item Absence of robust normalization mechanisms for product names;
+    \item Limited or отсутствующий functionality for cross-store price monitoring;
+    \item Dependence on manual input or restricted access to data sources;
+    \item Inability to scale processing and analysis for large datasets;
+    \item Lack of integration between data extraction, storage, and analytics.
+\end{itemize}
+
+These limitations demonstrate that existing systems do not provide a comprehensive solution for receipt-based analytics.
+
+\section{Conclusion}
+
+The conducted analysis confirms that existing systems are insufficient for solving the problem of receipt-based expense analysis and price monitoring. Spreadsheet tools lack automation, banking applications lack item-level detail, ERP/POS systems are not user-oriented, and receipt scanning applications do not provide deep analytical capabilities.
+
+Therefore, there is a need for a specialized system that integrates multi-source data acquisition, automated extraction, semantic normalization, and scalable analytics within a unified architecture.
+
+This conclusion directly motivates the methodology and system design proposed in the following chapters.
+%
+
+
